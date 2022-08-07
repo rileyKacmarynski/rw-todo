@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@redwoodjs/testing'
 import AppLayout from './AppLayout'
 
 const loggedIn = () => {
-  mockCurrentUser({ id: 1 })
+  mockCurrentUser({ id: 1, email: '' })
 }
 
 const loggedOut = () => {

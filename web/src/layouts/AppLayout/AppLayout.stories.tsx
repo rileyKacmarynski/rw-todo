@@ -1,7 +1,7 @@
 import AppLayout from './AppLayout'
 
 export const loggedIn = (args) => {
-  mockCurrentUser({ id: 1 })
+  mockCurrentUser({ id: 1, email: 'email@domain.com' })
 
   return <AppLayout {...args} />
 }
