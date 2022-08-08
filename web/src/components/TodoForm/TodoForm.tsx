@@ -13,6 +13,8 @@ import {
 import { Form, TextField, FieldError, Submit } from '@redwoodjs/forms'
 import { useMutation } from '@redwoodjs/web'
 
+import { QUERY as TodosQuery } from 'src/components/TodosCell'
+
 const CREATE = gql`
   mutation CreateTodoMutation($input: CreateTodoInput!) {
     createTodo(input: $input) {
@@ -40,24 +42,25 @@ const TodoForm = () => {
         formRef.current.reset()
       }
     },
+    refetchQueries: [{ query: TodosQuery }],
   })
 
   const onSubmit = (input) => {
-    createTodo({ variables: input })
+    createTodo({ variables: { input: { ...input } } })
   }
 
   return (
     <Form onSubmit={onSubmit} ref={formRef}>
       <Input
         data-testid="todoForm-input"
-        name="todo"
+        name="text"
         as={TextField}
         placeholder="What are you going to do?"
         validation={{ required: true }}
       />
       <FieldError
         data-testid="todoForm-fieldError"
-        name="todo"
+        name="text"
         style={{ color: 'red', display: 'block' }}
       />
       <Button

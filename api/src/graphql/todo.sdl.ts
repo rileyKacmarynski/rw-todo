@@ -7,7 +7,7 @@ export const schema = gql`
   }
 
   type Query {
-    Todos: [Todo!]! @requireAuth
+    todos: [Todo!]! @requireAuth
   }
 
   input CreateTodoInput {
@@ -16,7 +16,7 @@ export const schema = gql`
 
   input UpdateTodoInput {
     text: String
-    complete: Boolean
+    completed: Boolean
   }
 
   type Mutation {

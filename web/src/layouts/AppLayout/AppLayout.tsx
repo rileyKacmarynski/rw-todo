@@ -4,7 +4,6 @@ import {
   Container,
   Flex,
   Text,
-  Center,
   Spacer,
   ListItem,
   List,
@@ -69,10 +68,8 @@ const AppLayout = ({ children }: AppLayoutProps) => {
           </Flex>
         </Container>
       </Box>
-      <Container maxW={1400} mt={8}>
-        <Center>
-          <VStack>{children}</VStack>
-        </Center>
+      <Container textAlign="left" maxW={1400} mt={8}>
+        {children}
       </Container>
     </>
   )

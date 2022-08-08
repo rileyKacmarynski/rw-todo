@@ -8,7 +8,7 @@ import TodoForm from './TodoForm'
 const mockSuccessfulSave = () => {
   mockGraphQLMutation<CreateTodoMutation, CreateTodoInput>(
     'CreateTodoMutation',
-    (variables, { ctx }) => {
+    () => {
       const id = Math.floor(Math.random() * 1000)
 
       return {
