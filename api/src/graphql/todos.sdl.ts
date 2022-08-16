@@ -3,20 +3,28 @@ export const schema = gql`
     id: Int!
     text: String!
     completed: Boolean!
-    createdAt: DateTime!
+    list: List!
+    listId: Int!
+    authorId: Int!
+    author: User!
+    createdAt: DateTime
   }
 
   type Query {
     todos: [Todo!]! @requireAuth
+    todo(id: Int!): Todo @requireAuth
   }
 
   input CreateTodoInput {
     text: String!
+    completed: Boolean!
+    listId: Int!
   }
 
   input UpdateTodoInput {
     text: String
     completed: Boolean
+    listId: Int
   }
 
   type Mutation {

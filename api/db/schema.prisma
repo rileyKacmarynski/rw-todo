@@ -11,15 +11,31 @@ generator client {
 model User {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
+  lists               List[]
+  todos               Todo[]
   hashedPassword      String
   salt                String
   resetToken          String?
   resetTokenExpiresAt DateTime?
 }
 
+model List {
+  id           Int       @id @default(autoincrement())
+  name         String
+  todos        Todo[]
+  author       User      @relation(fields: [authorId], references: [id])
+  authorId     Int
+  lastAccessed DateTime? @default(now())
+  createdAt    DateTime? @default(now())
+}
+
 model Todo {
   id        Int       @id @default(autoincrement())
   text      String
   completed Boolean   @default(false)
+  list      List      @relation(fields: [listId], references: [id])
+  listId    Int
+  authorId  Int
+  author    User      @relation(fields: [authorId], references: [id])
   createdAt DateTime? @default(now())
 }

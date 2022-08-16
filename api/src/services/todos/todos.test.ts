@@ -8,28 +8,54 @@ import type { StandardScenario } from './todos.scenarios'
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
 describe('todos', () => {
+  const mockUser1 = (id: number) =>
+    mockCurrentUser({
+      email: 'email@domain.com',
+      id,
+    })
+
   scenario('returns all todos', async (scenario: StandardScenario) => {
+    const authorId = scenario.todo.one.authorId
+    mockUser1(authorId)
+
     const result = await todos()
 
-    expect(result.length).toEqual(Object.keys(scenario.todo).length)
+    const user1Todos = Object.values(scenario.todo).filter(
+      (f) => f.authorId == authorId
+    )
+    expect(result.length).toEqual(user1Todos.length)
   })
 
   scenario('returns a single todo', async (scenario: StandardScenario) => {
+    const authorId = scenario.todo.one.authorId
+    mockUser1(authorId)
+
     const result = await todo({ id: scenario.todo.one.id })
 
     expect(result).toEqual(scenario.todo.one)
   })
 
-  scenario('creates a todo', async () => {
+  scenario('creates a todo', async (scenario: StandardScenario) => {
+    const authorId = scenario.todo.one.authorId
+    mockUser1(authorId)
+
     const result = await createTodo({
-      input: { text: 'String', completed: true },
+      input: {
+        text: 'String',
+        completed: false,
+        listId: scenario.todo.two.listId,
+      },
     })
 
     expect(result.text).toEqual('String')
-    expect(result.completed).toEqual(true)
+    expect(result.listId).toEqual(scenario.todo.two.listId)
+    expect(result.authorId).toEqual(scenario.todo.two.authorId)
   })
 
   scenario('updates a todo', async (scenario: StandardScenario) => {
+    const authorId = scenario.todo.one.authorId
+    mockUser1(authorId)
+
     const original = await todo({ id: scenario.todo.one.id })
     const result = await updateTodo({
       id: original.id,
