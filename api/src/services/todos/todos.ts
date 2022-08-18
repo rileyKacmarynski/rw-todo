@@ -18,9 +18,18 @@ export const todo: QueryResolvers['todo'] = ({ id }) => {
   })
 }
 
-export const createTodo: MutationResolvers['createTodo'] = ({ input }) => {
+export const createTodo: MutationResolvers['createTodo'] = async ({
+  input,
+}) => {
+  const list = await db.list.findFirst({
+    where: {
+      id: input.listId,
+      authorId: context.currentUser.id,
+    },
+  })
+
   return db.todo.create({
-    data: { authorId: context.currentUser.id, ...input },
+    data: { ...input, authorId: context.currentUser.id, listId: list.id },
   })
 }
 

@@ -38,10 +38,10 @@ describe('lists', () => {
       id: scenario.list.one.authorId,
     })
     const result = await createList({
-      input: { authorId: scenario.list.two.authorId, name: 'List 3' },
+      input: { name: 'List 3' },
     })
 
-    expect(result.authorId).toEqual(scenario.list.two.authorId)
+    expect(result.authorId).toEqual(scenario.list.one.authorId)
   })
 
   scenario('updates a list', async (scenario: StandardScenario) => {

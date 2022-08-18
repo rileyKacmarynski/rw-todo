@@ -1,5 +1,4 @@
-import type { Prisma } from '@prisma/client'
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const standard = defineScenario<any>({
   user: {
     user1: {

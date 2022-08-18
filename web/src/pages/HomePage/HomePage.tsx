@@ -10,10 +10,10 @@ const HomePage = () => {
     <>
       <MetaTags title="Home" description="Home page" />
 
-      <VStack alignItems="start">
+      {/* <VStack alignItems="start">
         <TodosCell />
         <TodoForm />
-      </VStack>
+      </VStack> */}
     </>
   )
 }

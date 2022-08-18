@@ -15,7 +15,6 @@ export const schema = gql`
 
   input CreateListInput {
     name: String!
-    authorId: Int!
     lastAccessed: DateTime
   }
 
