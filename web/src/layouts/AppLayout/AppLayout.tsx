@@ -9,11 +9,13 @@ import {
   List,
   Link,
   HStack,
-  VStack,
+  Button,
 } from '@chakra-ui/react'
 
 import { useAuth } from '@redwoodjs/auth'
 import { Link as RwLink, routes } from '@redwoodjs/router'
+
+import ListsCell from 'src/components/ListsCell'
 
 type AppLayoutProps = {
   children?: React.ReactNode
@@ -53,17 +55,33 @@ const Nav: React.FC<NavProps> = ({ isAuthenticated, logout }) => {
           <Spacer />
           <List>
             {isAuthenticated ? (
-              <Link as={RwLink} color="white" onClick={logout}>
+              <Button
+                variant="link"
+                as={RwLink}
+                color="white"
+                onClick={logout}
+                to={''}
+              >
                 <ListItem>Logout</ListItem>
-              </Link>
+              </Button>
             ) : (
               <HStack spacing={4}>
-                <Link as={RwLink} color="white" to={routes.login()}>
+                <Button
+                  variant="link"
+                  as={RwLink}
+                  color="white"
+                  to={routes.login()}
+                >
                   <ListItem>Login</ListItem>
-                </Link>
-                <Link as={RwLink} color="white" to={routes.signup()}>
+                </Button>
+                <Button
+                  variant="link"
+                  as={RwLink}
+                  color="white"
+                  to={routes.signup()}
+                >
                   <ListItem>Signup</ListItem>
-                </Link>
+                </Button>
               </HStack>
             )}
           </List>
@@ -79,14 +97,18 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   return (
     <>
       <Nav isAuthenticated={isAuthenticated} logout={logOut} />
-      <Container
-        textAlign="left"
-        maxW={1400}
-        height="calc(100vh - 3rem)"
-        pt={8}
-      >
-        {children}
-      </Container>
+      <HStack alignItems="start" height="calc(100vh - 3rem)">
+        <Box
+          height="100%"
+          width="clamp(240px, 20%, 400px)"
+          backgroundColor="gray.100"
+        >
+          <ListsCell />
+        </Box>
+        <Container pt={4} textAlign="left" maxW={1400}>
+          {children}
+        </Container>
+      </HStack>
     </>
   )
 }
