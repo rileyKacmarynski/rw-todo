@@ -26,7 +26,7 @@ const CREATE = gql`
   }
 `
 
-const TodoForm = () => {
+const TodoForm: React.FC<{ listId: number }> = ({ listId }) => {
   const toast = useToast()
   const formRef = useRef<HTMLFormElement | null>(null)
 
@@ -42,11 +42,11 @@ const TodoForm = () => {
         formRef.current.reset()
       }
     },
-    refetchQueries: [{ query: TodosQuery }],
+    refetchQueries: [{ query: TodosQuery }, 'TodosQuery'],
   })
 
   const onSubmit = (input) => {
-    createTodo({ variables: { input: { ...input } } })
+    createTodo({ variables: { input: { ...input, completed: false, listId } } })
   }
 
   return (

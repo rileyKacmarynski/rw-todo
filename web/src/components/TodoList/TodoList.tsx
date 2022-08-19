@@ -20,7 +20,7 @@ const hoverStyles = { cursor: 'pointer', bgColor: 'rgba(0, 0, 0, 0.1)' }
 
 const TodoList = ({ todos, deleteTodo, toggleComplete }) => {
   return (
-    <List width="100%" maxW={300}>
+    <List width="100%" maxW={300} minH="260px">
       {todos.map((todo) => (
         <Flex key={todo.id} alignItems="center" justifyContent="space-between">
           <ListItem

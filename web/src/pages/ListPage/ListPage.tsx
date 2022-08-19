@@ -1,13 +1,13 @@
-import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
+
+import ListCell from 'src/components/ListCell'
 
 const ListPage: React.FC<{ id: number }> = ({ id }) => {
   return (
     <>
       <MetaTags title="List" description="List page" />
 
-      <h1>List cell will go here</h1>
-      <p>page {id}</p>
+      <ListCell id={Number(id)} />
     </>
   )
 }

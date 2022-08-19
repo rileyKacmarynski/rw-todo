@@ -11,7 +11,7 @@ export const schema = gql`
   }
 
   type Query {
-    todos: [Todo!]! @requireAuth
+    todos(listId: Int!): [Todo!]! @requireAuth
     todo(id: Int!): Todo @requireAuth
   }
 

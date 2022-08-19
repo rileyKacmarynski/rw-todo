@@ -1,12 +1,10 @@
 import { useRef } from 'react'
 
 import {
-  Box,
   Button,
   Heading,
   Input,
   List,
-  Text,
   useToast,
   VStack,
 } from '@chakra-ui/react'
@@ -45,15 +43,7 @@ export const DELETE = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
-
-export const Empty = () => <div>Empty</div>
-
-export const Failure = ({ error }: CellFailureProps) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
-)
-
-export const Success = ({ lists }: CellSuccessProps<ListsQuery>) => {
+const ListForm = () => {
   const toast = useToast()
   const formRef = useRef<HTMLFormElement | null>(null)
   const [createList, { loading }] = useMutation(CREATE, {
@@ -71,6 +61,53 @@ export const Success = ({ lists }: CellSuccessProps<ListsQuery>) => {
     refetchQueries: [{ query: QUERY }],
   })
 
+  const onSubmit = (data: { name: string }) => {
+    createList({ variables: { input: { ...data } } })
+  }
+
+  return (
+    <Form onSubmit={onSubmit} ref={formRef}>
+      <Input
+        size="sm"
+        colorScheme="blue"
+        as={TextField}
+        name="name"
+        validation={{ required: true }}
+        placeholder="add a new list"
+      />
+      <Button
+        variant="solid"
+        colorScheme="blue"
+        type="submit"
+        as={Submit}
+        mt={2}
+        disabled={loading}
+      >
+        Add
+      </Button>
+    </Form>
+  )
+}
+
+export const Loading = () => (
+  <VStack py={4} px={2}>
+    <Heading size="md">Add a list below</Heading>
+  </VStack>
+)
+
+export const Empty = () => (
+  <VStack py={4} px={2}>
+    <Heading size="md">Add a list below</Heading>
+    <ListForm />
+  </VStack>
+)
+
+export const Failure = ({ error }: CellFailureProps) => (
+  <div style={{ color: 'red' }}>Error: {error.message}</div>
+)
+
+export const Success = ({ lists }: CellSuccessProps<ListsQuery>) => {
+  const toast = useToast()
   const [deleteList] = useMutation(DELETE, {
     onCompleted: () => {
       toast({
@@ -81,11 +118,6 @@ export const Success = ({ lists }: CellSuccessProps<ListsQuery>) => {
     },
     refetchQueries: [{ query: QUERY }],
   })
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = (data: { name: string }) => {
-    createList({ variables: { input: { ...data } } })
-  }
 
   const onDelete = (id: number) => {
     deleteList({ variables: { id } })
@@ -110,26 +142,7 @@ export const Success = ({ lists }: CellSuccessProps<ListsQuery>) => {
           })}
         </List>
       </div>
-      <Form onSubmit={onSubmit} ref={formRef}>
-        <Input
-          size="sm"
-          colorScheme="blue"
-          as={TextField}
-          name="name"
-          validation={{ required: true }}
-          placeholder="add a new list"
-        />
-        <Button
-          variant="solid"
-          colorScheme="blue"
-          type="submit"
-          as={Submit}
-          mt={2}
-          disabled={loading}
-        >
-          Add
-        </Button>
-      </Form>
+      <ListForm />
     </VStack>
   )
 }

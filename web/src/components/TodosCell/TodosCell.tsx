@@ -8,8 +8,8 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import TodoList from '../TodoList/TodoList'
 
 export const QUERY = gql`
-  query TodosQuery {
-    todos {
+  query TodosQuery($listId: Int!) {
+    todos(listId: $listId) {
       id
       text
       completed
@@ -43,7 +43,7 @@ export const Loading = () => (
 )
 
 export const Empty = () => (
-  <Flex alignItems="center" width={300} justifyContent="center">
+  <Flex minH="260px" alignItems="center" width={300} justifyContent="center">
     <Heading size="sm">Nothing left to do today.</Heading>
   </Flex>
 )
@@ -69,7 +69,7 @@ export const Success = ({ todos }: CellSuccessProps<TodosQuery>) => {
             variant: 'subtle',
           })
     },
-    refetchQueries: [{ query: QUERY }],
+    refetchQueries: [{ query: QUERY }, 'TodosQuery'],
   })
 
   const [deleteTodo] = useMutation(DELETE, {
@@ -80,7 +80,7 @@ export const Success = ({ todos }: CellSuccessProps<TodosQuery>) => {
         variant: 'subtle',
       })
     },
-    refetchQueries: [{ query: QUERY }],
+    refetchQueries: [{ query: QUERY }, 'TodosQuery'],
   })
 
   const toggleComplete = (todo: Todo) => {

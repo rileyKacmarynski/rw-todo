@@ -6,9 +6,9 @@ import type {
 
 import { db } from 'src/lib/db'
 
-export const todos: QueryResolvers['todos'] = () => {
+export const todos: QueryResolvers['todos'] = ({ listId }) => {
   return db.todo.findMany({
-    where: { authorId: context.currentUser.id },
+    where: { authorId: context.currentUser.id, listId },
   })
 }
 
